@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WCAG 2.2 Accessibility Checklist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+        /* Custom styles for focus states to enhance accessibility */
+        input[type="checkbox"]:focus {
+            outline: 2px solid #3b82f6; /* Blue outline for focus */
+            outline-offset: 2px;
+        }
+        button:focus {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+        a:focus {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-3xl border border-gray-200">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">WCAG 2.2 AA Accessibility Checklist</h1>
+
+        <!-- <div class="mb-8 p-4 bg-red-50 border border-red-200 text-red-800 rounded-lg">
+            <h2 class="text-xl font-semibold mb-2">Important Note:</h2>
+            <p class="text-sm">
+                This tool provides a **representative selection** of checklist items based on the
+                "Web Accessibility Checklist (WCAG 2.2 AA) version 2023.11.28" document you provided.
+                For a **full and comprehensive audit** against all WCAG 2.2 AA success criteria,
+                you must refer to the original detailed PDF document.
+            </p>
+        </div> -->
+
+        <div class="mb-8">
+            <div class="bg-blue-50 border border-blue-200 text-blue-800 p-4 rounded-lg flex items-center justify-between">
+                <span class="font-semibold text-lg" id="score-display">0/X items checked</span>
+                <button id="reset-button" class="ml-4 px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-200 ease-in-out">
+                    Reset Checklist
+                </button>
+            </div>
+        </div>
+
+        <div id="checklist-container" class="space-y-6">
+
+            <div class="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                <h2 class="text-2xl font-semibold text-gray-700 mb-4">1. Structure and Semantics</h2>
+                <div class="space-y-3">
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="structure-semantics" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">The page &lt;title&gt; MUST be present and MUST contain text.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 2.4.2) [cite: 23]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="structure-semantics" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">The primary language of the page MUST be identified accurately, using a standard language code, on the &lt;html&gt; element (e.g. &lt;html lang="en"&gt;).</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 3.1.1) [cite: 26]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="structure-semantics" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">Text that acts as a heading visually or structurally MUST be designated as a true heading (&lt;h1&gt;, &lt;h2&gt;, etc.) in the markup.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 1.3.1) [cite: 28]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="structure-semantics" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">Headings SHOULD NOT skip hierarchical levels.</strong>
+                            <span class="block text-sm text-gray-500"> (Best practice) [cite: 29]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="structure-semantics" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">Landmarks are an effective way to bypass blocks of content, as required by WCAG 2.4.1.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 2.4.1) [cite: 31]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="structure-semantics" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">Lists MUST be constructed using the appropriate semantic markup (i.e. &lt;ul&gt; or &lt;ol&gt; with &lt;li&gt; child elements, or &lt;dl&gt; with &lt;dt&gt; and &lt;dd&gt; child elements).</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 1.3.1) [cite: 33]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="structure-semantics" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">Table headers MUST be designated with &lt;th&gt;.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 1.3.1) [cite: 36]</span>
+                        </span>
+                    </label>
+                     <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="structure-semantics" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">The iframe title attribute (on the parent page) MUST be accurate and descriptive.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 2.4.1) [cite: 39]</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                <h2 class="text-2xl font-semibold text-gray-700 mb-4">2. Links and Navigation</h2>
+                <div class="space-y-3">
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="links-navigation" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">Links MUST be semantically designated as such (ideally using an &lt;a&gt; element with a valid `href` value).</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 4.1.2) [cite: 48]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="links-navigation" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">The purpose of each link MUST be understandable and distinguishable from other links on the same page.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 2.4.4) [cite: 48]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="links-navigation" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">Links MUST be keyboard-focusable.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 2.1.1) [cite: 48]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="links-navigation" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">The navigation order of focusable elements (links, form elements, etc.) MUST be logical and intuitive.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 2.4.3) [cite: 51]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="links-navigation" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">All links MUST show a visual focus indicator when in focus.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 2.4.7) [cite: 51]</span>
+                        </span>
+                    </label>
+                     <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="links-navigation" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">Multiple ways must be available to find other web pages on the site (at least two of: related pages list, table of contents, site map, site search, or list of all available web pages).</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 2.4.5) [cite: 56]</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                <h2 class="text-2xl font-semibold text-gray-700 mb-4">3. Images and Visual Design</h2>
+                <div class="space-y-3">
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="images-visuals" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">Meaningful images MUST have alternative text that accurately conveys the purpose of the image.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 1.1.1) [cite: 65]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="images-visuals" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">Decorative images SHOULD be given null (empty) alternative text (`alt=""`) or handled with CSS.</strong>
+                            <span class="block text-sm text-gray-500"> (Best practice) [cite: 65]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="images-visuals" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">Any information conveyed by color MUST be accompanied by a programmatically discernible text alternative.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 1.4.1) [cite: 71]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="images-visuals" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">Small text (under 18 point regular font or 14 point bold font) MUST have a contrast ratio of at least 4.5 to 1 with the background.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 1.4.3) [cite: 71]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="images-visuals" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">The page MUST allow users to zoom in on mobile devices (e.g., `<meta name="viewport" content="user-scalable=no">` is NOT allowed).</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 1.4.4) [cite: 74]</span>
+                        </span>
+                    </label>
+                     <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="images-visuals" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">Content MUST NOT rely solely on visual characteristics such as shape, size, visual location, or orientation to convey meaning.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 1.3.3) [cite: 80]</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                <h2 class="text-2xl font-semibold text-gray-700 mb-4">4. Multimedia, Animations, and Motion</h2>
+                <div class="space-y-3">
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="multimedia-motion" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">Prerecorded audio-only content MUST have a transcript of dialog, narration, and other meaningful sounds.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 1.2.1) [cite: 85]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="multimedia-motion" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">A method MUST be provided to pause, stop, or hide any media content that begins playing automatically and which lasts 5 seconds or more.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 2.2.2) [cite: 85]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="multimedia-motion" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">Prerecorded multimedia content MUST have synchronized captions.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 1.2.2) [cite: 86]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="multimedia-motion" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">A page MUST NOT contain content that flashes more than 3 times per second unless sufficiently small and low contrast.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 2.3.1) [cite: 96]</span>
+                        </span>
+                    </label>
+                     <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="multimedia-motion" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">A method MUST be provided to allow users to control time limits by turning them off, adjusting them, or extending them.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 2.2.1) [cite: 96]</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                <h2 class="text-2xl font-semibold text-gray-700 mb-4">5. User Input, Forms, and Dynamic Content</h2>
+                <div class="space-y-3">
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="user-input-forms" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">Links, buttons, and interactive controls MUST be keyboard-focusable.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 2.1.1) [cite: 99]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="user-input-forms" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">Keyboard focus MUST NOT be locked or trapped in a particular page element.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 2.1.2) [cite: 99]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="user-input-forms" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">The size of the target for pointer inputs MUST be at least 24 by 24 CSS pixels (with some allowable exceptions).</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 2.5.8) [cite: 102]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="user-input-forms" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">Labels MUST be programmatically associated with their corresponding form elements.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 1.3.1) [cite: 111]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="user-input-forms" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">Placeholder text is allowed but MUST NOT be used as the only method of providing a label for a text input.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 1.3.1) [cite: 111]</span>
+                        </span>
+                    </label>
+                     <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="user-input-forms" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">If an input error is automatically detected, the item that is in error is identified and the error is described to the user in text.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 3.3.1) [cite: 129]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="user-input-forms" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">When a user inputs information or interacts with a control, it MUST NOT result in a substantial change to the page, the spawning of a pop-up window, an additional change of keyboard focus, or any other change that could confuse or disorient the user unless the user is informed of the change ahead of time.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 3.2.2) [cite: 135]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="user-input-forms" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">Every interactive UI element MUST have a name, according to the accessible name computation.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 4.1.2) [cite: 138]</span>
+                        </span>
+                    </label>
+                    <label class="flex items-start text-gray-700 cursor-pointer">
+                        <input type="checkbox" data-category="user-input-forms" class="mt-1 mr-3 h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                        <span class="block">
+                            <strong class="font-medium">If the CAPTCHA is not text-based (e.g. image or audio), a text alternative MUST communicate the purpose of the CAPTCHA.</strong>
+                            <span class="block text-sm text-gray-500"> (WCAG 1.1.1) [cite: 151]</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="mt-8 p-6 bg-yellow-50 border border-yellow-200 text-yellow-800 rounded-lg">
+                <h2 class="text-2xl font-semibold mb-3">Consult the Full WCAG 2.2 Checklist:</h2>
+                <p class="mb-2">
+                    This tool presents a subset of the comprehensive guidelines. For a thorough and
+                    complete accessibility audit against WCAG 2.2 AA standards, please refer to the
+                    original source document:
+                </p>
+                <p class="mb-2">
+                    <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank" class="text-blue-700 hover:underline font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-200 ease-in-out">
+                        Official WCAG Standards & Guidelines (W3C)
+                    </a>
+                </p>
+                 <p class="text-sm text-yellow-700">
+                    The provided PDF document "web-accessibility-checklist-wcag-2.2.pdf" offers a detailed, actionable checklist based on these standards.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const checklistContainer = document.getElementById('checklist-container');
+            const scoreDisplay = document.getElementById('score-display');
+            const resetButton = document.getElementById('reset-button');
+            const checkboxes = checklistContainer.querySelectorAll('input[type="checkbox"]');
+            const totalItems = checkboxes.length;
+
+            /**
+             * Updates the displayed score based on the number of checked items.
+             */
+            function updateScore() {
+                let checkedCount = 0;
+                checkboxes.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        checkedCount++;
+                    }
+                });
+                scoreDisplay.textContent = `${checkedCount}/${totalItems} items checked`;
+            }
+
+            /**
+             * Resets all checkboxes to unchecked state and updates the score.
+             */
+            function resetChecklist() {
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                updateScore();
+            }
+
+            // Add event listeners to all checkboxes
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateScore);
+            });
+
+            // Add event listener to the reset button
+            resetButton.addEventListener('click', resetChecklist);
+
+            // Initial score update on page load
+            updateScore();
+        });
+    </script>
+</body>
+</html>
