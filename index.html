@@ -330,6 +330,33 @@
                     The provided PDF document "web-accessibility-checklist-wcag-2.2.pdf" offers a detailed, actionable checklist based on these standards.
                 </p>
             </div>
+
+            <div class="mt-8 p-6 bg-gray-100 border border-gray-200 text-gray-800 rounded-xl text-center">
+                <h2 class="text-xl font-semibold mb-3">Contribute to this project!</h2>
+                <p class="mb-4">
+                    Feel free to fork this project and implement new features or improvements.
+                </p>
+                <a href="https://github.com/owaisazmal/AccessibilityChecklistTool" target="_blank" class="text-blue-700 hover:underline font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-200 ease-in-out flex items-center justify-center">
+                    <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.499.09.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.007.07 1.532 1.03 1.532 1.03.892 1.529 2.341 1.089 2.91.833.091-.647.351-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.953 0-1.098.39-1.996 1.029-2.693-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.099 2.65.64.696 1.028 1.593 1.028 2.693 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                    </svg>
+                    GitHub Repository
+                </a>
+                <div class="flex justify-center items-center mt-4 space-x-4">
+                    <span class="flex items-center text-gray-700">
+                        <svg class="w-5 h-5 mr-1 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.834-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        <span id="star-count">--</span> Stars
+                    </span>
+                    <span class="flex items-center text-gray-700">
+                        <svg class="w-5 h-5 mr-1 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8.25 4.5A2.25 2.25 0 006 6.75v.75H4.5A2.25 2.25 0 002.25 9v4.5A2.25 2.25 0 004.5 15h11A2.25 2.25 0 0017.75 12.75V9A2.25 2.25 0 0015.5 6.75H14.25V6A2.25 2.25 0 0012 3.75h-.75A2.25 2.25 0 009 6v.75H8.25V4.5zM12 6.75h-.75V6a.75.75 0 01.75-.75h.75a.75.75 0 01.75.75v.75h-.75zM4.5 9h11a.75.75 0 01.75.75v3.75a.75.75 0 01-.75.75H4.5a.75.75 0 01-.75-.75V9a.75.75 0 01.75-.75z" clip-rule="evenodd" />
+                        </svg>
+                        <span id="fork-count">--</span> Forks
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -338,7 +365,7 @@
             const checklistContainer = document.getElementById('checklist-container');
             const scoreDisplay = document.getElementById('score-display');
             const resetButton = document.getElementById('reset-button');
-            const exportButton = document.getElementById('export-button'); // Get the new export button
+            const exportButton = document.getElementById('export-button');
             const checkboxes = checklistContainer.querySelectorAll('input[type="checkbox"]');
             const totalItems = checkboxes.length;
 
@@ -405,6 +432,29 @@
                 URL.revokeObjectURL(a.href); // Release the object URL
             }
 
+            /**
+             * Fetches GitHub repository data (stars and forks) and updates the UI.
+             */
+            async function fetchGitHubData() {
+                const repoOwner = 'owaisazmal';
+                const repoName = 'AccessibilityChecklistTool';
+                const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}`;
+
+                try {
+                    const response = await fetch(apiUrl);
+                    if (!response.ok) {
+                        throw new Error(`GitHub API error: ${response.statusText}`);
+                    }
+                    const data = await response.json();
+                    document.getElementById('star-count').textContent = data.stargazers_count || 'N/A';
+                    document.getElementById('fork-count').textContent = data.forks_count || 'N/A';
+                } catch (error) {
+                    console.error('Failed to fetch GitHub data:', error);
+                    document.getElementById('star-count').textContent = 'Error';
+                    document.getElementById('fork-count').textContent = 'Error';
+                }
+            }
+
             // Add event listeners to all checkboxes
             checkboxes.forEach(checkbox => {
                 checkbox.addEventListener('change', updateScore);
@@ -416,8 +466,9 @@
             // Add event listener to the export button
             exportButton.addEventListener('click', exportFindings);
 
-            // Initial score update on page load
+            // Initial score update and fetch GitHub data on page load
             updateScore();
+            fetchGitHubData();
         });
     </script>
 </body>
