@@ -35,7 +35,7 @@
                 <span class="font-semibold text-lg" id="score-display">0/X items checked</span>
                 <div class="flex space-x-2">
                     <button id="export-button" class="px-4 py-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-75 transition duration-200 ease-in-out">
-                        Export Findings
+                        Export Findings (CSV)
                     </button>
                     <button id="reset-button" class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-200 ease-in-out">
                         Reset Checklist
@@ -370,6 +370,23 @@
             const totalItems = checkboxes.length;
 
             /**
+             * Escapes a string for CSV format.
+             * Doubles quotes and encloses the string in quotes if it contains commas or quotes.
+             * @param {string} value The string to escape.
+             * @returns {string} The escaped string.
+             */
+            function escapeCsv(value) {
+                if (value === null || value === undefined) {
+                    return '';
+                }
+                let stringValue = String(value);
+                if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
+                    return `"${stringValue.replace(/"/g, '""')}"`;
+                }
+                return stringValue;
+            }
+
+            /**
              * Updates the displayed score based on the number of checked items.
              */
             function updateScore() {
@@ -393,39 +410,48 @@
             }
 
             /**
-             * Exports the current checklist findings to a text file.
+             * Exports the current checklist findings to a CSV file.
              */
             function exportFindings() {
-                let findings = `WCAG 2.2 AA Accessibility Checklist Findings\n`;
-                findings += `Date: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}\n`;
-                findings += `Total Items: ${totalItems}\n`;
-                findings += `Checked Items: ${Array.from(checkboxes).filter(cb => cb.checked).length}\n\n`;
+                let csvContent = '';
 
-                let currentCategory = '';
+                // Add metadata to the CSV (optional, can be removed if only checklist items are needed)
+                csvContent += `Report Date,${escapeCsv(new Date().toLocaleDateString())}\n`;
+                csvContent += `Report Time,${escapeCsv(new Date().toLocaleTimeString())}\n`;
+                csvContent += `Total Items,${totalItems}\n`;
+                csvContent += `Checked Items,${Array.from(checkboxes).filter(cb => cb.checked).length}\n\n`;
+
+                // Add CSV header
+                csvContent += `Category,Item,WCAG Reference,Status\n`;
+
+                let currentCategoryTitle = '';
+
                 checkboxes.forEach(checkbox => {
                     const labelSpan = checkbox.nextElementSibling;
                     const itemText = labelSpan.querySelector('strong').textContent.trim();
                     const wcagRef = labelSpan.querySelector('span').textContent.trim();
                     const categoryDiv = checkbox.closest('.bg-gray-50');
-                    const categoryTitle = categoryDiv ? categoryDiv.querySelector('h2').textContent.trim() : 'Uncategorized';
+                    const categoryTitleElement = categoryDiv ? categoryDiv.querySelector('h2') : null;
+                    const categoryTitle = categoryTitleElement ? categoryTitleElement.textContent.replace(/^\d+\.\s*/, '').trim() : 'Uncategorized'; // Remove leading number and dot
 
-                    // Add category header if it's a new category
-                    if (categoryTitle !== currentCategory) {
-                        findings += `\n--- ${categoryTitle} ---\n`;
-                        currentCategory = categoryTitle;
+                    const status = checkbox.checked ? 'Checked' : 'Unchecked';
+
+                    // Only add category if it's new for this row, otherwise leave it empty for subsequent rows in the same category
+                    const categoryForCsv = (categoryTitle !== currentCategoryTitle) ? categoryTitle : '';
+                    if (categoryTitle !== currentCategoryTitle) {
+                        currentCategoryTitle = categoryTitle;
                     }
 
-                    const status = checkbox.checked ? '[X]' : '[ ]';
-                    findings += `${status} ${itemText} ${wcagRef}\n`;
+                    csvContent += `${escapeCsv(categoryForCsv)},${escapeCsv(itemText)},${escapeCsv(wcagRef)},${escapeCsv(status)}\n`;
                 });
 
-                // Create a Blob from the findings string
-                const blob = new Blob([findings], { type: 'text/plain;charset=utf-8' });
+                // Create a Blob from the CSV string
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
 
                 // Create a download link and trigger click
                 const a = document.createElement('a');
                 a.href = URL.createObjectURL(blob);
-                a.download = 'accessibility_checklist_findings.txt';
+                a.download = 'accessibility_checklist_findings.csv'; // Change filename to .csv
                 document.body.appendChild(a); // Append to body to make it clickable in some browsers
                 a.click();
                 document.body.removeChild(a); // Clean up the element
